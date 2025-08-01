@@ -5,6 +5,7 @@ import com.TTecnologia.RURL.entity.UrlReduce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
 import java.util.Base64;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,8 +19,8 @@ public class UrlReduceService {
     private UrlReduceDao urlReduceDao;
 
     public String reduceUrl(String urlOrigin){
-        //validarUrl
-        Optional<UrlReduce> urlShortOptional = urlReduceDao.findByUrlOrigin(urlOrigin);
+        Optional<UrlReduce> urlShortOptional =
+                urlReduceDao.findByUrlOrigin(urlOrigin);
 
         if (urlShortOptional.isPresent()){
             return DOMAIN + urlShortOptional.get().getUrlShort();
@@ -34,6 +35,7 @@ public class UrlReduceService {
     private String buildUrlShort(){
         UUID uuid = UUID.randomUUID();
         byte[] bytes = uuid.toString().getBytes();
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes).substring(0,8);
+        return Base64.getUrlEncoder().withoutPadding()
+                .encodeToString(bytes).substring(0,8);
     }
 }
