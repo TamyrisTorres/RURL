@@ -17,9 +17,13 @@ public class UrlRedirectService {
         Optional<UrlReduce> urlReduceOptional = urlReduceDao.findByUrlShort(urlShort);
 
         if (urlReduceOptional.isEmpty()){
-            return null;
+            throw new RuntimeException("Url não encontrada");
         }
 
-        return urlReduceOptional.get().getUrlOrigin();
+        UrlReduce urlReduce = urlReduceOptional.get();
+        urlReduce.setAccessCount(urlReduce.getAccessCount() + 1);
+        urlReduceDao.save(urlReduce);
+
+        return urlReduce.getUrlOrigin();
     }
 }

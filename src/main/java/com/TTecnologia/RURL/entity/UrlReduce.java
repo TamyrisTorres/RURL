@@ -3,6 +3,11 @@ package com.TTecnologia.RURL.entity;
 
 import jakarta.persistence.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
 @Entity
 @Table(name = "UrlReduce")
 public class UrlReduce {
@@ -16,6 +21,10 @@ public class UrlReduce {
 
     @Column(name = "urlShort", unique = true)
     private String urlShort;
+
+    private LocalDateTime localDateTime;
+
+    private Long accessCount = 0L;
 
     public UrlReduce() {
     }
@@ -43,5 +52,34 @@ public class UrlReduce {
 
     public void setUrlShort(String urlShort) {
         this.urlShort = urlShort;
+    }
+
+    public Long getAccessCount() {
+        return accessCount;
+    }
+
+    public void setAccessCount(Long accessCount) {
+        this.accessCount = accessCount;
+    }
+
+    @PrePersist
+    public void prePersist(){
+        this.localDateTime = LocalDateTime.now();
+    }
+
+    public double getAccessesPerDay(){
+        long days = Duration.between(localDateTime, LocalDateTime.now()).toDays();
+        if (days == 0) days = 1;
+        return (double) accessCount / days;
+    }
+
+    public Map<String, Object> getData(UrlReduce urlReduce){
+        Map<String, Object> dataUrl = new HashMap<>();
+        dataUrl.put("urlOriginal: ", urlReduce.getUrlOrigin());
+        dataUrl.put("urlShort: ", urlReduce.getUrlShort());
+        dataUrl.put("Total de acessos: ", urlReduce.getAccessCount());
+        dataUrl.put("Media de acessos por dia: ", urlReduce.getAccessesPerDay());
+
+        return dataUrl;
     }
 }

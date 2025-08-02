@@ -2,13 +2,14 @@ package com.TTecnologia.RURL.service;
 
 import com.TTecnologia.RURL.dao.UrlReduceDao;
 import com.TTecnologia.RURL.entity.UrlReduce;
+import com.TTecnologia.RURL.exception.UrlInvalidException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
-import java.util.Base64;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UrlReduceService {
@@ -37,5 +38,17 @@ public class UrlReduceService {
         byte[] bytes = uuid.toString().getBytes();
         return Base64.getUrlEncoder().withoutPadding()
                 .encodeToString(bytes).substring(0,8);
+    }
+
+    public Map<String, Object> getStatus(String urlShort) {
+        Optional<UrlReduce> urlReduceOptional = urlReduceDao.findByUrlShort(urlShort);
+
+        if (urlReduceOptional.isEmpty()){
+            throw new RuntimeException("Url não encontrada");
+        }
+
+        UrlReduce urlReduce = new UrlReduce();
+
+        return urlReduce.getData(urlReduceOptional.get());
     }
 }
