@@ -62,6 +62,10 @@ public class UrlReduce {
         this.accessCount = accessCount;
     }
 
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
+
     @PrePersist
     public void prePersist(){
         this.localDateTime = LocalDateTime.now();
