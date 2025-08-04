@@ -11,14 +11,15 @@ import java.util.Map;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/rulr")
+@RequestMapping("/api/rurl")
 public class UrlReduceController {
 
     @Autowired
     private UrlReduceService urlReduceService;
 
-    @PostMapping
+    @PostMapping("/reduce")
     public ResponseEntity<String> reduceUrl(@RequestBody String url){
+
         if (!UrlValid.isValidURL(url)){
             throw new UrlInvalidException("Url inválida");
         }
