@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Encurtador de Url</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="container-encurtador-page">
+        <h1>Encurtador de URL</h1>
+        <input type="text" id="urlInput" placeholder="Cole sua URL">
+        <button class="button-encurtador" onclick="encurtar()">Encurtar</button>
+        <p id="resposta"></p>
+    </section>
+</body>
+<script>
+    async function encurtar(){
+        const url = document.getElementById('urlInput').value;
+        const response = await fetch("/api/rurl/reduce", {
+          method: "POST",
+          headers: {"Content-Type": "text/plain"},
+          body: url
+        });
+         let shortUrl = '';
+
+        if (response.ok) {
+           shortUrl = await response.text();
+          const resposta = document.getElementById("resposta").innerText = shortUrl;
+        } else {
+          console.error("Erro na requisição:", response.status());
+        }
+
+        if (resposta) {
+          resposta.innerText = shortUrl;
+          resposta.classList.add("resposta");
+          document.getElementById('urlInput').value = '';
+        } else {
+          resposta.classList.remove("resposta");
+          resposta.style = "";
+        }
+    }
+</script>
+</html>

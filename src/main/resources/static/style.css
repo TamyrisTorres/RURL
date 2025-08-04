@@ -1,0 +1,44 @@
+body {
+padding: 0px;
+margin: 0px;
+background-color: #5387a0;
+}
+
+.container-encurtador-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 15%;
+
+    h1{
+      font-size: 32px;
+    }
+
+    #urlInput{
+      padding: 20px 20px;
+      border-radius: 10px;
+      background-color: #fffafa;
+      width: 350px;
+    }
+
+    .button-encurtador{
+      padding: 10px 25px;
+      border-radius: 10px;
+      background-color: #bc8f8f;
+    }
+
+    .button-encurtador:hover{
+      background-color: #ffefd5;
+    }
+
+    .resposta{
+      background-color: #e0ffe0;
+      border: 2px solid green;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+}
+
