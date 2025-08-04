@@ -57,7 +57,8 @@ class UrlReduceServiceTest {
 
             var response = urlReduceService.reduceUrl(originalUrl);
 
-            assertEquals("http://localhost:8080/api/" + existingShort, response);
+            assertEquals("http://localhost:8080/api/" +
+                    existingShort, response);
         }
 
         @Test
@@ -73,7 +74,8 @@ class UrlReduceServiceTest {
             var status = urlReduceService.getStatus(shortUrl);
 
             assertNotNull(status);
-            assertEquals("http://example.com", status.get("urlOriginal: "));
+            assertEquals("http://example.com",
+                    status.get("urlOriginal: "));
         }
 
         @Test
@@ -83,7 +85,8 @@ class UrlReduceServiceTest {
             when(urlReduceDao.findByUrlShort(shortUrl))
                     .thenReturn(Optional.empty());
 
-            RuntimeException ex = assertThrows(RuntimeException.class, () -> {
+            RuntimeException ex = assertThrows(
+                    RuntimeException.class, () -> {
                 urlReduceService.getStatus(shortUrl);
             });
 
@@ -94,11 +97,14 @@ class UrlReduceServiceTest {
         void shouldGenerateShortUrl_WithLengthOf8() {
             String originalUrl = "http://test.com";
 
-            when(urlReduceDao.findByUrlOrigin(originalUrl)).thenReturn(Optional.empty());
-            when(urlReduceDao.save(any())).then(AdditionalAnswers.returnsFirstArg());
+            when(urlReduceDao.findByUrlOrigin(originalUrl))
+                    .thenReturn(Optional.empty());
+            when(urlReduceDao.save(any()))
+                    .then(AdditionalAnswers.returnsFirstArg());
 
             String shortUrl = urlReduceService.reduceUrl(originalUrl);
-            String shortPart = shortUrl.replace("http://localhost:8080/api/", "");
+            String shortPart = shortUrl
+                    .replace("http://localhost:8080/api/", "");
 
             assertEquals(8, shortPart.length());
         }

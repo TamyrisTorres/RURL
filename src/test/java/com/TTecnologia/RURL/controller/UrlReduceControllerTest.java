@@ -45,7 +45,8 @@ class UrlReduceControllerTest {
         @Test
         void shouldReturnHttpOK() {
             String url = "http://example.com";
-            when(urlReduceService.reduceUrl(url)).thenReturn("http://localhost:8080/api/abcd1234");
+            when(urlReduceService.reduceUrl(url))
+                    .thenReturn("http://localhost:8080/api/abcd1234");
 
             var response = urlReduceController.reduceUrl(url);
 
@@ -56,18 +57,21 @@ class UrlReduceControllerTest {
         void shouldCallServiceWithCorrectParameter() {
             String url = "http://example.com";
 
-            when(urlReduceService.reduceUrl(url)).thenReturn("http://localhost:8080/api/abcd1234");
+            when(urlReduceService.reduceUrl(url))
+                    .thenReturn("http://localhost:8080/api/abcd1234");
 
             urlReduceController.reduceUrl(url);
 
-            verify(urlReduceService, times(1)).reduceUrl(url);
+            verify(urlReduceService, times(1))
+                    .reduceUrl(url);
         }
 
         @Test
         void shouldThrowExceptionWhenUrlIsInvalid() {
             String invalidUrl = "invalid_url";
 
-            assertThrows(UrlInvalidException.class, () -> urlReduceController.reduceUrl(invalidUrl));
+            assertThrows(UrlInvalidException.class,
+                    () -> urlReduceController.reduceUrl(invalidUrl));
             verify(urlReduceService, never()).reduceUrl(any());
         }
     }
@@ -84,7 +88,8 @@ class UrlReduceControllerTest {
 
             when(urlReduceService.getStatus(shortUrl)).thenReturn(expectedStatus);
 
-            ResponseEntity<Map<String, Object>> response = urlReduceController.getStatus(shortUrl);
+            ResponseEntity<Map<String, Object>> response =
+                    urlReduceController.getStatus(shortUrl);
 
             assertEquals(HttpStatus.OK, response.getStatusCode());
             assertEquals(expectedStatus, response.getBody());
@@ -98,7 +103,8 @@ class UrlReduceControllerTest {
 
             urlReduceController.getStatus(shortUrl);
 
-            verify(urlReduceService, times(1)).getStatus(shortUrl);
+            verify(urlReduceService, times(1))
+                    .getStatus(shortUrl);
         }
     }
 }
